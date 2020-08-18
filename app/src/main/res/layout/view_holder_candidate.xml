@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <variable
+            name="isReacted"
+            type="Boolean" />
+
+        <variable
+            name="isAccepted"
+            type="Boolean" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="10dp"
+        android:background="@android:color/transparent"
+        android:orientation="horizontal">
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_margin="10dp"
+            app:cardBackgroundColor="@color/cardview_light_background"
+            app:cardCornerRadius="4dp"
+            app:cardElevation="4dp"
+            app:cardUseCompatPadding="true">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="10dp"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:id="@+id/candidateProfileImageView"
+                    android:layout_width="200dp"
+                    android:layout_height="200dp"
+                    android:layout_gravity="center_horizontal"
+                    android:background="@drawable/profile_background"
+                    android:padding="10dp" />
+
+                <TextView
+                    android:id="@+id/candidateNameTextView"
+                    style="@style/CandidateNameTextView"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="15dp" />
+
+                <TextView
+                    android:id="@+id/ageNatTextView"
+                    style="@style/AgeNatTextView" />
+
+                <TextView
+                    android:id="@+id/cityStateCountryTextView"
+                    style="@style/AgeNatTextView"
+                    android:layout_marginTop="3dp"
+                    android:layout_marginBottom="30dp" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:orientation="horizontal"
+                    android:padding="5dp"
+                    android:visibility="@{isReacted ? View.VISIBLE : View.GONE}">
+
+                    <TextView
+                        style="@style/AcceptDeclineTextView"
+                        android:text="@string/member_accepted"
+                        android:visibility="@{isAccepted ? View.VISIBLE : View.GONE}" />
+
+                    <TextView
+                        style="@style/AcceptDeclineTextView"
+                        android:text="@string/member_declined"
+                        android:visibility="@{isAccepted ? View.GONE : View.VISIBLE}" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:orientation="horizontal"
+                    android:padding="5dp"
+                    android:visibility="@{isReacted ? View.GONE : View.VISIBLE}">
+
+                    <ImageView
+                        android:id="@+id/declineCandidate"
+                        style="@style/CandidateCardAction"
+                        android:contentDescription="@string/decline"
+                        android:src="@drawable/close"
+                        android:tint="@color/decline_tint" />
+
+                    <ImageView
+                        android:id="@+id/acceptCandidate"
+                        style="@style/CandidateCardAction"
+                        android:layout_marginStart="50dp"
+                        android:contentDescription="@string/accept"
+                        android:src="@drawable/right"
+                        android:tint="@color/colorAccent" />
+                </LinearLayout>
+
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+
+    </LinearLayout>
+</layout>

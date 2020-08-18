@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">ShaadiDotCom</string>
+    <string name="no_result_found">No results found</string>
+    <string name="count_text">"%s / %s"</string>
+    <string name="decline">Decline</string>
+    <string name="accept">Accept</string>
+    <string name="member_accepted">Member Accepted</string>
+    <string name="member_declined">Member Declined</string>
+    <string name="accept_invitations_from_matches_you_like">Accept Invitations from Matches you like</string>
+    <string name="welcome">Welcome</string>
+</resources>
