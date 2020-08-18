@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="currentCount"
+            type="String" />
+
+        <variable
+            name="totalCount"
+            type="String" />
+    </data>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:alpha="0.5"
+            android:text="@string/accept_invitations_from_matches_you_like"
+            android:textSize="52sp" />
+
+        <androidx.viewpager2.widget.ViewPager2
+            android:id="@+id/candidatesRecyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@android:color/transparent"
+            android:orientation="horizontal"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/countDetailsView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="10dp"
+            android:visibility="gone"
+            app:cardElevation="2dp">
+
+            <TextView
+                android:padding="10dp"
+                android:id="@+id/countTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{String.format(@string/count_text,currentCount, totalCount)}"
+                android:textSize="13sp"
+                android:textStyle="bold"
+                android:translationZ="3dp" />
+
+        </androidx.cardview.widget.CardView>
+
+    </FrameLayout>
+</layout>
