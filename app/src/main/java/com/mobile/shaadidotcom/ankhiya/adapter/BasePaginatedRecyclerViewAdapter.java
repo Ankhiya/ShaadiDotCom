@@ -49,6 +49,7 @@ public abstract class BasePaginatedRecyclerViewAdapter<T> extends RecyclerView.A
 
     /**
      * Call this method to check for error
+     *
      * @return true if error, false otherwise
      */
     public boolean isError() {
@@ -57,6 +58,7 @@ public abstract class BasePaginatedRecyclerViewAdapter<T> extends RecyclerView.A
 
     /**
      * Call this method to set error
+     *
      * @param errorMessage message to be set
      */
     public void setError(String errorMessage) {
@@ -67,6 +69,7 @@ public abstract class BasePaginatedRecyclerViewAdapter<T> extends RecyclerView.A
 
     /**
      * Call this method to get current data list size
+     *
      * @return data list size
      */
     public int getCurrentSize() {
@@ -75,6 +78,7 @@ public abstract class BasePaginatedRecyclerViewAdapter<T> extends RecyclerView.A
 
     /**
      * Call this method to append data list
+     *
      * @param data data list
      */
     public void setData(List<T> data) {
@@ -83,6 +87,7 @@ public abstract class BasePaginatedRecyclerViewAdapter<T> extends RecyclerView.A
             mIsPendingData = false;
         }
         if (null != data && !data.isEmpty()) {
+            mIsPendingData = true;
             mData.addAll(mData.size(), data);
             if (mIsPendingData) {
                 mNextLoadingPosition = mData.size() - (mTakeCount / 2);

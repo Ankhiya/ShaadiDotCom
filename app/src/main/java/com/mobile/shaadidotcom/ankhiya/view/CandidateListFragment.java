@@ -33,6 +33,7 @@ public class CandidateListFragment extends Fragment
     private FragmentCandidatesListBinding mBinding;
     private WeakReference<ConnectivityProvider> mConnectivityProvider;
     private boolean mIsConnected;
+    private boolean mInitialState = true;
 
     /**
      * newInstance fragment
@@ -72,22 +73,6 @@ public class CandidateListFragment extends Fragment
         super.onDestroyView();
     }
 
-    private void initViewPager() {
-        mCandidatesAdapter = new CandidatesAdapter(CandidatesViewModel.TAKE_COUNT,
-                mCandidateAdapterCallback);
-        mBinding.candidatesRecyclerView.registerOnPageChangeCallback(
-                new ViewPager2.OnPageChangeCallback() {
-                    @Override
-                    public void onPageScrolled(int position, float positionOffset,
-                                               int positionOffsetPixels) {
-                        super.onPageScrolled(position, positionOffset, positionOffsetPixels);
-                        mBinding.setCurrentCount(String.valueOf(position + 1));
-                    }
-                });
-        mBinding.candidatesRecyclerView.setPageTransformer(new ZoomOutPageTransformer());
-        mBinding.candidatesRecyclerView.setAdapter(mCandidatesAdapter);
-    }
-
     @Override
     public void onStart() {
         super.onStart();
@@ -106,10 +91,29 @@ public class CandidateListFragment extends Fragment
 
     @Override
     public void onStateChange(boolean isConnected) {
-        if (!mIsConnected) {
+        if (!mIsConnected && !mInitialState) {
             loadMoreData(mCandidatesAdapter.getCurrentSize());
         }
+        if (mInitialState) {
+            mInitialState = false;
+        }
         this.mIsConnected = isConnected;
+    }
+
+    private void initViewPager() {
+        mCandidatesAdapter = new CandidatesAdapter(CandidatesViewModel.TAKE_COUNT,
+                mCandidateAdapterCallback);
+        mBinding.candidatesRecyclerView.registerOnPageChangeCallback(
+                new ViewPager2.OnPageChangeCallback() {
+                    @Override
+                    public void onPageScrolled(int position, float positionOffset,
+                                               int positionOffsetPixels) {
+                        super.onPageScrolled(position, positionOffset, positionOffsetPixels);
+                        mBinding.setCurrentCount(String.valueOf(position + 1));
+                    }
+                });
+        mBinding.candidatesRecyclerView.setPageTransformer(new ZoomOutPageTransformer());
+        mBinding.candidatesRecyclerView.setAdapter(mCandidatesAdapter);
     }
 
     private void loadMoreData(int currentSize) {
