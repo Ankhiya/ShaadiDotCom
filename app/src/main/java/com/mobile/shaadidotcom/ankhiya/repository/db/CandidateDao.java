@@ -20,6 +20,9 @@ public interface CandidateDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insertAll(List<CandidateDB> candidateDBList);
 
+    @Query("SELECT * FROM candidate WHERE uuid = :loginId")
+    CandidateDB getCandidate(String loginId);
+
     @Query("DELETE FROM candidate")
     void deleteAll();
 

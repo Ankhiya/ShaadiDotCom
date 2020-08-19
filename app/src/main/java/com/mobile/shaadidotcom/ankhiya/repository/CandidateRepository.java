@@ -94,7 +94,7 @@ public class CandidateRepository {
                     public void onResponse(@NonNull Call<PagedData<Candidate>> call,
                                            @NonNull Response<PagedData<Candidate>> response) {
                         if (response.isSuccessful() && response.body() != null) {
-                            mCandidates.setValue(response.body().getResults());
+                            getDBStatus(response.body().getResults());
                             saveCandidatesInDB(response.body());
                         }
                     }
@@ -107,6 +107,21 @@ public class CandidateRepository {
                 });
     }
 
+    private void getDBStatus(@NonNull List<Candidate> candidates) {
+        mAppExecutors.diskIO().execute(() -> {
+            for (Candidate candidate : candidates) {
+                CandidateDB candidateDB = mDatabase.candidateDao()
+                        .getCandidate(candidate.getLoginUUID());
+                if (candidateDB != null) {
+                    Candidate dbCandidate = new Gson().fromJson(candidateDB.getJson(), Candidate.class);
+                    candidate.setReacted(dbCandidate.isReacted());
+                    candidate.setAccepted(dbCandidate.isAccepted());
+                }
+            }
+            mCandidates.postValue(candidates);
+        });
+    }
+
     private void saveCandidatesInDB(@NonNull final PagedData<Candidate> pagedData) {
         List<CandidateDB> candidateDBS = new ArrayList<>();
         for (Candidate candidate : pagedData.getResults()) {
@@ -116,6 +131,7 @@ public class CandidateRepository {
         }
 
         mAppExecutors.diskIO().execute(() -> {
+            // as data is not coming with same order all time
             if (pagedData.getPageNumber() == 1) {
                 mDatabase.candidateDao().deleteAll();
             }
